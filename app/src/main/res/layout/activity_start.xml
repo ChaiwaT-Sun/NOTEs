@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yello"
+    android:orientation="vertical"
+    tools:context=".StartActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/input_log_email"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="180dp"
+            android:text="NOTEs"
+            android:textColor="@color/bText"
+            android:textSize="80dp"
+            android:textStyle="bold" />
+
+        TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:padding="5dp"
+            android:text="Welcome"
+            android:textAlignment="center"
+            android:textColor="@color/bText"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textquse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="2dp"
+            android:text="Have Account ?"
+            android:textAlignment="center"
+            android:textColor="@color/bText"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/start_log_btn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@color/bText"
+            android:text="YES"
+            android:layout_margin="20dp"
+            android:textColor="@color/yello"
+            android:textSize="20dp" />
+
+
+        <Button
+            android:id="@+id/start_reg_btn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/SText"
+            android:text="NO"
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            android:textColor="@color/yello" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
