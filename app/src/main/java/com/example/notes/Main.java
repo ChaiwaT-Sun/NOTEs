@@ -12,7 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Switch;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.example.notes.R.drawable;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +34,9 @@ public class Main extends AppCompatActivity {
 
 
     private DatabaseReference fNotesDatabase;
+
+
+
 
 
     @Override
@@ -58,6 +65,10 @@ public class Main extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
 
 
+
+
+
+
         fNotesDatabase = FirebaseDatabase.getInstance().getReference(".info/connected");
         fNotesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,6 +92,9 @@ public class Main extends AppCompatActivity {
         if (fAuth.getCurrentUser() != null) {
             fNotesDatabase = FirebaseDatabase.getInstance().getReference().child("Notes").child(fAuth.getCurrentUser().getUid());
         }
+
+
+
 
         updateUI();
         loadData();

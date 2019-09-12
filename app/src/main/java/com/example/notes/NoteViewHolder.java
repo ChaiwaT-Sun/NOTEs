@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -22,7 +23,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         textTitle = mView.findViewById(R.id.note_title);
         textTime = mView.findViewById(R.id.note_time);
         noteCard = mView.findViewById(R.id.note_card);
-
     }
 
     public void setNoteTitle(String title) {

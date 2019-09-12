@@ -48,26 +48,39 @@
 
 
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_gravity="top"
+        android:orientation="horizontal"
         android:background="@color/yello"
         >
-
-
         <Button
             android:id="@+id/new_note_btn"
-            android:layout_width="330dp"
+            android:layout_width="240dp"
             android:backgroundTint="@color/yello"
             android:layout_height="wrap_content"
             android:background="@color/bText"
             android:text="Note"
             android:textColor="@android:color/white"
+            tools:ignore="Suspicious0dp" />
 
-            />
+        <Switch
+            android:id="@+id/switchbuttom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-    </RelativeLayout>
+            android:gravity="center"
+            android:showText="true"
+            android:textOff="Lock"
+            android:textOn="UNLOCK"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:thumb="@drawable/sw_thumb"
+            android:track="@drawable/sw_track"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_delete"
         android:layout_width="wrap_content"
