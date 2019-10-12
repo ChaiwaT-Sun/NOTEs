@@ -14,8 +14,6 @@ public class title extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
-
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/Wtest"
     tools:context=".NewNoteActivity">
 
@@ -45,8 +44,6 @@
             android:hint="Note"
             android:inputType="textMultiLine"
             android:padding="10dp" />
-
-
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,20 +62,19 @@
             android:textColor="@android:color/white"
             tools:ignore="Suspicious0dp" />
 
-        <Switch
-            android:id="@+id/switchbuttom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:gravity="center"
-            android:showText="true"
-            android:textOff="Lock"
-            android:textOn="UNLOCK"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:thumb="@drawable/sw_thumb"
-            android:track="@drawable/sw_track"
-            tools:ignore="MissingConstraints" />
+<!--        <Switch-->
+<!--            android:id="@+id/switchbuttom"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:showText="true"-->
+<!--            android:textOff="Lock"-->
+<!--            android:textOn="UNLOCK"-->
+<!--            android:textSize="15dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:thumb="@drawable/sw_thumb"-->
+<!--            android:track="@drawable/sw_track"-->
+<!--            tools:ignore="MissingConstraints" />-->
 
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton
@@ -92,7 +88,4 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

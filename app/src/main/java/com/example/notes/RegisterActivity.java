@@ -2,10 +2,13 @@ package com.example.notes;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class RegisterActivity extends AppCompatActivity {
     private Button btnReg;
@@ -39,10 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
-
-
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,11 +52,39 @@ public class RegisterActivity extends AppCompatActivity {
                 String uemail = inEmail.getEditText().getText().toString().trim();
                 String upass = inPass.getEditText().getText().toString().trim();
 
-                registerUser(uname, uemail, upass);
+              if(uname.isEmpty() || uemail.isEmpty() || upass.isEmpty()){
+                  checknullinput(uname,uemail,upass);
 
+              }else {
+                  registerUser(uname, uemail, upass);
+              }
+              //  registerUser(uname, uemail, upass);
             }
         });
     }
+
+
+    private void checknullinput(final String name,String email, String pass){
+
+        if(name.isEmpty()){
+            Log.e("test input "," uname done check");
+            inName.setHint(" Username cannot be empty.");
+
+        }
+
+        if(email.equals("")){
+            Log.e("test input "," uname done check");
+            inEmail.setHint(" Email cannot be empty.");
+
+        }
+        if(pass.equals("")){
+            Log.e("test input "," uname done check");
+            inPass.setHint(" Password cannot be empty.");
+
+        }
+
+    }
+
 
     private void registerUser(final String name, String email, String password){
 

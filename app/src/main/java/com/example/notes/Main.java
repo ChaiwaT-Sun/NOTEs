@@ -31,14 +31,7 @@ public class Main extends AppCompatActivity {
 
     private FirebaseAuth fAuth;
     private RecyclerView mNotesList;
-
-
     private DatabaseReference fNotesDatabase;
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,25 +43,15 @@ public class Main extends AppCompatActivity {
             public void onClick(View view) {
                 Intent newIntent = new Intent(Main.this, NewNoteActivity.class);
                 startActivity(newIntent);
-
             }
         });
-
        // gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, true);
-
         mNotesList.setHasFixedSize(true);
         mNotesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         //gridLayoutManager.setReverseLayout(true);
         //gridLayoutManager.setStackFromEnd(true);
         //mNotesList.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(0), true));
-
         fAuth = FirebaseAuth.getInstance();
-
-
-
-
-
-
         fNotesDatabase = FirebaseDatabase.getInstance().getReference(".info/connected");
         fNotesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,34 +64,21 @@ public class Main extends AppCompatActivity {
                     Log.e("test connect","not connected");
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("test connect","Listener was cancelled");
             }
         });
-
-
         if (fAuth.getCurrentUser() != null) {
             fNotesDatabase = FirebaseDatabase.getInstance().getReference().child("Notes").child(fAuth.getCurrentUser().getUid());
         }
-
-
-
-
         updateUI();
         loadData();
     }
-
-
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
-
-
     private void loadData() {
         Query query = fNotesDatabase.orderByValue();
         FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<NoteModel, NoteViewHolder>(
@@ -194,9 +164,6 @@ public class Main extends AppCompatActivity {
 //
 //        return true;
 //    }
-
-
-
     /**
      * Converting dp to pixel
      */
@@ -204,7 +171,4 @@ public class Main extends AppCompatActivity {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-
-
-
 }

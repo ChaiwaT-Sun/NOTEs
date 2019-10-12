@@ -1,10 +1,13 @@
 package com.example.notes;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -59,19 +63,12 @@ public class NewNoteActivity extends AppCompatActivity{
             Toast.makeText(getApplicationContext(),"Fill empty fields NEW", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
-
-
-
        // Log.e("slidr >>>>>>>>", String.valueOf(slidr.equals(Slidr.attach(this).toString())));
-
         try {
             noteID = getIntent().getStringExtra("noteId");
 
@@ -81,27 +78,31 @@ public class NewNoteActivity extends AppCompatActivity{
                 isExist = true;
             } else {
                 isExist = false;
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         btnCreate = (Button) findViewById(R.id.new_note_btn);
 
         etTitle = (EditText) findViewById(R.id.new_note_title);
         etContent = (EditText) findViewById(R.id.new_note_content);
 
 
-        switchR = findViewById(R.id.switchbuttom);
-
-
-
-
-
-
-
+//        switchR = findViewById(R.id.switchbuttom);
+//
+//        switchR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    Log.e("Switch","on");
+//                }
+//                else {
+//                    Log.e("Switch","off");
+//                }
+//            }
+//        });
 
         fAuth = FirebaseAuth.getInstance();
         fNotesDatabase = FirebaseDatabase.getInstance().getReference().child("Notes").child(fAuth.getCurrentUser().getUid());
@@ -131,16 +132,13 @@ public class NewNoteActivity extends AppCompatActivity{
                     deleteNote();
                 } else {
                     Toast.makeText(getApplicationContext(), "Nothing to delete", Toast.LENGTH_SHORT).show();
+                    Intent backhome = new Intent(NewNoteActivity.this,Main.class);
+                    startActivity(backhome);
                 }
             }
         });
-
-
-
-
         putData();
     }
-
 
 
     @Override
@@ -158,12 +156,10 @@ public class NewNoteActivity extends AppCompatActivity{
                     if (dataSnapshot.hasChild("title") && dataSnapshot.hasChild("content")) {
                         String title = dataSnapshot.child("title").getValue().toString();
                         String content = dataSnapshot.child("content").getValue().toString();
-
                         etTitle.setText(title);
                         etContent.setText(content);
                     }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -212,16 +208,11 @@ public class NewNoteActivity extends AppCompatActivity{
                 });
                 mainThread.start();
             }
-
-
-
         } else {
             Toast.makeText(this, "USERS IS NOT SIGNED IN", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -236,13 +227,13 @@ public class NewNoteActivity extends AppCompatActivity{
                     deleteNote();
                 } else {
                     Toast.makeText(this, "Nothing to delete", Toast.LENGTH_SHORT).show();
+
                 }
                 break;
         }
 
         return true;
     }
-
     private void deleteNote() {
 
         fNotesDatabase.child(noteID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
