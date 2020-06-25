@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
-class NewNoteActivity() : AppCompatActivity() {
+class NewNoteActivity : AppCompatActivity() {
     private var btnCreate: Button? = null
     private var etTitle: EditText? = null
     private var etContent: EditText? = null
@@ -50,11 +50,7 @@ class NewNoteActivity() : AppCompatActivity() {
             noteID = intent.getStringExtra("noteId")
 
             //Toast.makeText(this, noteID, Toast.LENGTH_SHORT).show();
-            if (noteID.trim { it <= ' ' } != "") {
-                isExist = true
-            } else {
-                isExist = false
-            }
+            isExist = this.noteID!!.trim { it <= ' ' } != ""
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -126,41 +122,39 @@ class NewNoteActivity() : AppCompatActivity() {
         }
     }
 
-    private fun createNote(title: String, content: String) {
-        if (fAuth!!.currentUser != null) {
-            if (isExist) {
-                // UPDATE A NOTE
-                val updateMap: MutableMap<*, *> = HashMap<Any?, Any?>()
-                updateMap["title"] = etTitle!!.text.toString().trim { it <= ' ' }
-                updateMap["content"] = etContent!!.text.toString().trim { it <= ' ' }
-                updateMap["timestamp"] = ServerValue.TIMESTAMP
-                fNotesDatabase!!.child((noteID)!!).updateChildren(updateMap)
-                Toast.makeText(this, "Note updated0", Toast.LENGTH_SHORT).show()
-            } else {
-                // CREATE A NEW NOTE
-                val newNoteRef = fNotesDatabase!!.push()
-                val noteMap: MutableMap<*, *> = HashMap<Any?, Any?>()
-                noteMap["title"] = title
-                noteMap["content"] = content
-                noteMap["timestamp"] = ServerValue.TIMESTAMP
-                val mainThread = Thread(object : Runnable {
-                    override fun run() {
-                        newNoteRef.setValue(noteMap).addOnCompleteListener(object : OnCompleteListener<Void?> {
-                            override fun onComplete(task: Task<Void?>) {
-                                if (task.isSuccessful) {
-                                    Toast.makeText(this@NewNoteActivity, "Note added to database", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(this@NewNoteActivity, "ERROR: " + task.exception!!.message, Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        })
-                    }
-                })
-                mainThread.start()
-            }
+    private fun createNote(title: String, content: String) = if (fAuth!!.currentUser != null) {
+        if (isExist) {
+            // UPDATE A NOTE
+            val updateMap: MutableMap<String, String> = HashMap<String, String>()
+            updateMap["title"] = etTitle!!.text.toString().trim { it <= ' ' }
+            updateMap["content"] = etContent!!.text.toString().trim { it <= ' ' }
+            updateMap["timestamp"] = ServerValue.TIMESTAMP.toString()
+            fNotesDatabase!!.child((noteID)!!).updateChildren(updateMap as Map<String, Any>)
+            Toast.makeText(this, "Note updated0", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "USERS IS NOT SIGNED IN", Toast.LENGTH_SHORT).show()
+            // CREATE A NEW NOTE
+            val newNoteRef = fNotesDatabase!!.push()
+            val noteMap: MutableMap<String, String> = HashMap<String, String>()
+            noteMap["title"] = title
+            noteMap["content"] = content
+            noteMap["timestamp"] = ServerValue.TIMESTAMP.toString()
+            val mainThread = Thread(object : Runnable {
+                override fun run() {
+                    newNoteRef.setValue(noteMap).addOnCompleteListener(object : OnCompleteListener<Void?> {
+                        override fun onComplete(task: Task<Void?>) {
+                            if (task.isSuccessful) {
+                                Toast.makeText(this@NewNoteActivity, "Note added to database", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this@NewNoteActivity, "ERROR: " + task.exception!!.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                }
+            })
+            mainThread.start()
         }
+    } else {
+        Toast.makeText(this, "USERS IS NOT SIGNED IN", Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
