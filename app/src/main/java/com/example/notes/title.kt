@@ -13,7 +13,7 @@ class title : AppCompatActivity() {
             val main = Intent(this@title, StartActivity::class.java)
             startActivity(main)
             finish()
-        }, title.Companion.splash_time_out.toLong())
+        }, splash_time_out.toLong())
     }
 
     companion object {

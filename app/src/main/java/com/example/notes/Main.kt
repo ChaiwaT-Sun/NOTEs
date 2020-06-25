@@ -60,37 +60,37 @@ class Main : AppCompatActivity() {
     }
 
     private fun loadData() {
-        val query = fNotesDatabase!!.orderByValue()
-        val firebaseRecyclerAdapter: FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> = object : FirebaseRecyclerAdapter<NoteModel?, NoteViewHolder>(
-                NoteModel::class.java,
-                R.layout.single_note_layout,
-                NoteViewHolder::class.java,
-                query
-        ) {
-            override fun populateViewHolder(viewHolder: NoteViewHolder, model: NoteModel?, position: Int) {
-                val noteId = getRef(position).key
-                fNotesDatabase!!.child(noteId!!).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.hasChild("title") && dataSnapshot.hasChild("timestamp")) {
-                            val title = dataSnapshot.child("title").value.toString()
-                            val timestamp = dataSnapshot.child("timestamp").value.toString()
-                            viewHolder.setNoteTitle(title)
-                            //viewHolder.setNoteTime(timestamp);
-                            val getTimeAgo = GetTimeAgo()
-                            viewHolder.setNoteTime(getTimeAgo.getTimeAgo(timestamp.toLong(), applicationContext))
-                            viewHolder.noteCard.setOnClickListener {
-                                val intent = Intent(this@Main, NewNoteActivity::class.java)
-                                intent.putExtra("noteId", noteId)
-                                startActivity(intent)
-                            }
-                        }
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {}
-                })
-            }
-        }
-        mNotesList!!.adapter = firebaseRecyclerAdapter
+//        val query = fNotesDatabase!!.orderByValue()
+//        val firebaseRecyclerAdapter: FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> = object : FirebaseRecyclerAdapter<NoteModel?, NoteViewHolder>(
+//                NoteModel::class.java,
+//                R.layout.single_note_layout,
+//                NoteViewHolder::class.java,
+//                query
+//        ) {
+//            override fun populateViewHolder(viewHolder: NoteViewHolder, model: NoteModel?, position: Int) {
+//                val noteId = getRef(position).key
+//                fNotesDatabase!!.child(noteId!!).addValueEventListener(object : ValueEventListener {
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        if (dataSnapshot.hasChild("title") && dataSnapshot.hasChild("timestamp")) {
+//                            val title = dataSnapshot.child("title").value.toString()
+//                            val timestamp = dataSnapshot.child("timestamp").value.toString()
+//                            viewHolder.setNoteTitle(title)
+//                            //viewHolder.setNoteTime(timestamp);
+//                            val getTimeAgo = GetTimeAgo()
+//                            viewHolder.setNoteTime(getTimeAgo.getTimeAgo(timestamp.toLong(), applicationContext))
+//                            viewHolder.noteCard.setOnClickListener {
+//                                val intent = Intent(this@Main, NewNoteActivity::class.java)
+//                                intent.putExtra("noteId", noteId)
+//                                startActivity(intent)
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onCancelled(databaseError: DatabaseError) {}
+//                })
+//            }
+//        }
+//        mNotesList!!.adapter = firebaseRecyclerAdapter
     }
 
     private fun updateUI() {

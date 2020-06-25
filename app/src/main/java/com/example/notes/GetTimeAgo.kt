@@ -26,15 +26,15 @@ object GetTimeAgo {
         } else if (diff < 2 * MINUTE_MILLIS) {
             "a minute ago"
         } else if (diff < 50 * MINUTE_MILLIS) {
-            diff / MINUTE_MILLIS.toString() + " minutes ago"
+            (diff / MINUTE_MILLIS).toString() + " minutes ago"
         } else if (diff < 90 * MINUTE_MILLIS) {
             "an hour ago"
         } else if (diff < 24 * HOUR_MILLIS) {
-            diff / HOUR_MILLIS.toString() + " hours ago"
+           (diff / HOUR_MILLIS ).toString() + " hours ago"
         } else if (diff < 48 * HOUR_MILLIS) {
             "yesterday"
         } else {
-            diff / DAY_MILLIS.toString() + " days ago"
+            (diff / DAY_MILLIS).toString() + " days ago"
         }
     }
 }
