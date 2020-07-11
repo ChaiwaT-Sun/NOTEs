@@ -2,16 +2,18 @@ package com.example.notes
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.util.*
+import com.firebase.ui.database.FirebaseRecyclerAdapter
 
 class Main : AppCompatActivity() {
     private var fAuth: FirebaseAuth? = null
@@ -60,37 +62,48 @@ class Main : AppCompatActivity() {
     }
 
     private fun loadData() {
-//        val query = fNotesDatabase!!.orderByValue()
-//        val firebaseRecyclerAdapter: FirebaseRecyclerAdapter<NoteModel, NoteViewHolder> = object : FirebaseRecyclerAdapter<NoteModel?, NoteViewHolder>(
-//                NoteModel::class.java,
-//                R.layout.single_note_layout,
-//                NoteViewHolder::class.java,
-//                query
-//        ) {
-//            override fun populateViewHolder(viewHolder: NoteViewHolder, model: NoteModel?, position: Int) {
-//                val noteId = getRef(position).key
-//                fNotesDatabase!!.child(noteId!!).addValueEventListener(object : ValueEventListener {
-//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                        if (dataSnapshot.hasChild("title") && dataSnapshot.hasChild("timestamp")) {
-//                            val title = dataSnapshot.child("title").value.toString()
-//                            val timestamp = dataSnapshot.child("timestamp").value.toString()
-//                            viewHolder.setNoteTitle(title)
-//                            //viewHolder.setNoteTime(timestamp);
-//                            val getTimeAgo = GetTimeAgo()
-//                            viewHolder.setNoteTime(getTimeAgo.getTimeAgo(timestamp.toLong(), applicationContext))
-//                            viewHolder.noteCard.setOnClickListener {
-//                                val intent = Intent(this@Main, NewNoteActivity::class.java)
-//                                intent.putExtra("noteId", noteId)
-//                                startActivity(intent)
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onCancelled(databaseError: DatabaseError) {}
-//                })
-//            }
-//        }
-//        mNotesList!!.adapter = firebaseRecyclerAdapter
+        val query = fNotesDatabase!!.orderByValue()
+        val firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<NoteModel, NoteViewHolder>(
+        NoteModel::class.java,
+        R.layout.single_note_layout,
+        NoteViewHolder::class.java,
+        query
+        ) {
+            override fun populateViewHolder(viewHolder: NoteViewHolder, model: NoteModel?, position: Int) {
+                val noteId = getRef(position).key
+                fNotesDatabase!!.child(noteId!!).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.hasChild("title") && dataSnapshot.hasChild("timestamp")) {
+                            val title = dataSnapshot.child("title").value.toString()
+                            val timestamp = dataSnapshot.child("timestamp").value.toString()
+                            viewHolder.setNoteTitle(title)
+                            viewHolder.setNoteTime(GetTimeAgo.getTimeAgo(timestamp)!!)
+
+
+
+                            viewHolder.noteCard.setOnClickListener {
+                                val intent = Intent(this@Main, NewNoteActivity::class.java)
+                                intent.putExtra("noteId", noteId)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+            }
+        }
+        mNotesList!!.adapter = firebaseRecyclerAdapter
+
+
+    }
+
+
+    fun getDate(timestamp: Long) :String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp * 1000L
+        val date = DateFormat.format("dd-MM-yyyy",calendar).toString()
+        return date
     }
 
     private fun updateUI() {

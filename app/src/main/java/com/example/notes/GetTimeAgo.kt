@@ -7,20 +7,20 @@ object GetTimeAgo {
     private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
     private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
     private const val DAY_MILLIS = 24 * HOUR_MILLIS
-    fun getTimeAgo(time: Long, ctx: Context?): String? {
-        var time = time
-        if (time < 1000000000000L) {
+    fun getTimeAgo(time: String): String? {
+        var times = time.toLong()
+        if (times < 1000000000000L) {
 
             // If timestamp given in seconds, convert to millis
-            time *= 1000
+            times *= 1000
         }
         val now = System.currentTimeMillis()
-        if (time > now || time <= 0) {
+        if (times > now || times <= 0) {
             return null
         }
 
         // TODO: localize
-        val diff = now - time
+        val diff = now - times
         return if (diff < MINUTE_MILLIS) {
             "just now"
         } else if (diff < 2 * MINUTE_MILLIS) {
@@ -37,4 +37,5 @@ object GetTimeAgo {
             (diff / DAY_MILLIS).toString() + " days ago"
         }
     }
+
 }

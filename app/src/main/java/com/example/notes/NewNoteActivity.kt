@@ -128,22 +128,23 @@ class NewNoteActivity : AppCompatActivity() {
             val updateMap: MutableMap<String, String> = HashMap<String, String>()
             updateMap["title"] = etTitle!!.text.toString().trim { it <= ' ' }
             updateMap["content"] = etContent!!.text.toString().trim { it <= ' ' }
-            updateMap["timestamp"] = ServerValue.TIMESTAMP.toString()
+            updateMap["timestamp"] = System.currentTimeMillis().toString()
+
             fNotesDatabase!!.child((noteID)!!).updateChildren(updateMap as Map<String, Any>)
-            Toast.makeText(this, "Note updated0", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Note updated0 ${ServerValue.TIMESTAMP.toString()}", Toast.LENGTH_SHORT).show()
         } else {
             // CREATE A NEW NOTE
             val newNoteRef = fNotesDatabase!!.push()
             val noteMap: MutableMap<String, String> = HashMap<String, String>()
             noteMap["title"] = title
             noteMap["content"] = content
-            noteMap["timestamp"] = ServerValue.TIMESTAMP.toString()
+            noteMap["timestamp"] = System.currentTimeMillis().toString()
             val mainThread = Thread(object : Runnable {
                 override fun run() {
                     newNoteRef.setValue(noteMap).addOnCompleteListener(object : OnCompleteListener<Void?> {
                         override fun onComplete(task: Task<Void?>) {
                             if (task.isSuccessful) {
-                                Toast.makeText(this@NewNoteActivity, "Note added to database", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@NewNoteActivity, "Note added to database${ServerValue.TIMESTAMP.toString()}", Toast.LENGTH_SHORT).show()
                             } else {
                                 Toast.makeText(this@NewNoteActivity, "ERROR: " + task.exception!!.message, Toast.LENGTH_SHORT).show()
                             }
